@@ -9,27 +9,27 @@ import java.io.ByteArrayInputStream;
 
 public class AppTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayInputStream inContent = new ByteArrayInputStream("5\nM 2\nP\nQ\n".getBytes()); // Simulate input
+    private final ByteArrayInputStream inContent = new ByteArrayInputStream(
+        "5\nM 2\nP\nQ\n".getBytes() // Simulated user input: Grid size, Move, Print, Quit
+    );
 
     @Before
     public void setUp() {
-        // Redirect system input and output to simulate interaction
         System.setOut(new PrintStream(outContent));
         System.setIn(inContent);
     }
 
     @Test
     public void testAppMain() {
-        // R1: Ensures the grid initializes correctly with a user input size.
         String[] args = {};
-        App.main(args);  // This will read from the inContent stream
+        App.main(args);
 
-        // R6: Checks if robot status is displayed correctly.
         String output = outContent.toString();
         
         assertTrue(output.contains("Enter grid size:"));
         assertTrue(output.contains("Enter command:"));
         assertTrue(output.contains("Position: 0, 2 - Pen: up - Facing: NORTH"));
-        assertTrue(output.contains("*"));  // R5: Checking if grid output includes trail
+        assertTrue(output.contains("*"));  // Checking if grid output includes trail
+        assertTrue(output.contains("Exiting...")); // Ensuring program exits gracefully
     }
 }

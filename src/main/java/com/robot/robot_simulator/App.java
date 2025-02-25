@@ -7,15 +7,28 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         try {
             System.out.print("Enter grid size: ");
+            if (!scanner.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a number.");
+                return;
+            }
             int gridSize = scanner.nextInt();
             scanner.nextLine(); // Consume newline
-            
-            CommandHandler handler = new CommandHandler(gridSize); // Correcting instantiation of CommandHandler
+
+            CommandHandler handler = new CommandHandler(gridSize);
 
             while (true) {
                 System.out.print("Enter command: ");
-                String command = scanner.nextLine();
-                handler.processCommand(command); // Correctly invoking processCommand
+                if (!scanner.hasNextLine()) {
+                    break;
+                }
+                String command = scanner.nextLine().trim();
+
+                if (command.equalsIgnoreCase("Q")) {
+                    System.out.println("Exiting...");
+                    break;
+                }
+
+                handler.processCommand(command);
             }
         } finally {
             scanner.close();
