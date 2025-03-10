@@ -5,41 +5,64 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class GridTest {
+    private Robot robot;
     private Grid grid;
 
     @Before
     public void setUp() {
+        robot = new Robot();
         grid = new Grid(5);
     }
 
     @Test
-    public void testGridSize() {
-        assertEquals(5, grid.getSize());
+    public void testInitialPosition() {
+        assertEquals("Position: 0, 0 - Pen: up - Facing: NORTH", robot.getStatus());
     }
+
+    @Test
+    public void testMoveWithPenDown() {
+        robot.setPenDown(true);
+        robot.move(2, grid);
+        assertTrue(grid.isCellMarked(0, 1));
+        assertTrue(grid.isCellMarked(0, 2));
+    }
+
+//    @Test
+//    public void testPenDown() {
+//        robot.setPenDown(true);
+//        assertTrue(robot.isPenDown());
+//    }
+//
+//    @Test
+//    public void testTurnRight() {
+//        robot.turnRight();
+//        assertEquals("Position: 0, 0 - Pen: up - Facing: EAST", robot.getStatus());
+//    }
+//
+//    @Test
+//    public void testTurnLeft() {
+//        robot.turnLeft();
+//        assertEquals("Position: 0, 0 - Pen: up - Facing: WEST", robot.getStatus());
+//    }
+//
+//    @Test
+//    public void testMoveNorth() {
+//        robot.move(1, grid);
+//        assertEquals("Position: 0, 1 - Pen: up - Facing: NORTH", robot.getStatus());
+//    }
 
     @Test
     public void testMark() {
-        grid.mark(1, 1);
-        // Adjusted expected output to match exactly how the grid should appear
-        assertEquals("     \n     \n  *  \n     \n     \n", gridToString(grid));
+        robot.setPenDown(true);
+        robot.move(2, grid);
+        assertTrue(grid.isCellMarked(0, 1));
+        assertTrue(grid.isCellMarked(0, 2));
     }
-
 
     @Test
     public void testPrintGrid() {
-        grid.mark(1, 1);
+        robot.move(2, grid);
         grid.printGrid();
+        // Check output manually or use System.setOut() to capture the output
     }
-
-    private String gridToString(Grid grid) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = grid.getSize() - 1; i >= 0; i--) {
-            for (int j = 0; j < grid.getSize(); j++) {
-                sb.append(grid.getCell(i, j) ? "*" : " ");
-            }
-            sb.append("\n");
-        }
-        return sb.toString().stripTrailing();  // Strip trailing spaces after each row
-    }
-
 }

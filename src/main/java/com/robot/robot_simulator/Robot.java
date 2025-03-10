@@ -16,7 +16,7 @@ public class Robot {
         this.penDown = penDown;
     }
 
-    public boolean isPenDown() {
+    public boolean isPenDown() {  // Added method
         return penDown;
     }
 
